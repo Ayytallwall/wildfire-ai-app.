@@ -1,0 +1,95 @@
+import streamlit as st
+import pandas as pd
+import random
+import time
+
+# Page Configuration
+st.set_page_config(
+    page_title="Wildfire Early Detection & AI Dispatch",
+    page_icon="🔥",
+    layout="wide"
+)
+
+# App Header
+st.title("🔥 24/7 Automated Wildfire Early Detection & Dispatch System")
+st.markdown(
+    "**Intended Users:** First Responders & Emergency Dispatchers  \n"
+    "**Problem Solved:** Overcomes traditional delayed human reporting by using continuous AI machine vision to detect faint smoke plumes and thermal signatures instantly[cite: 3]."
+)
+st.divider()
+
+# Sidebar controls for simulation
+st.sidebar.header("🎛️ Camera & Sensor Controls")
+camera_location = st.sidebar.selectbox(
+    "Select Monitoring Sector",
+    ["Sector A - Ridge North", "Sector B - Valley Pine", "Sector C - Ridge South", "Sector D - East Highway"]
+)
+sensitivity = st.sidebar.slider("AI Smoke Detection Sensitivity", 50, 100, 85)
+
+# Main layout tabs
+tab1, tab2, tab3 = st.tabs(["🔴 Live Monitoring Feed", "🤖 AI Threat Analysis", "📋 Incident Logs"])
+
+with tab1:
+    st.subheader(f"Live Feed: {camera_location}")
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        # Placeholder simulating 24/7 camera view
+        st.info("📷 24/7 Automated Optical & Thermal Camera Online. Continuous machine vision active.")
+        # Display a sample visual placeholder representing camera view
+        st.markdown(
+            """
+            <div style="border: 2px solid #ff4b4b; border-radius: 8px; padding: 20px; text-align: center; background-color: #1e1e1e; color: white;">
+                <h3>[ AI CAMERA FEED ACTIVE ]</h3>
+                <p>Scanning for particulate smoke plumes and anomalous heat spikes...</p>
+                <p style="color: #00ff00; font-weight: bold;">Status: Clear (No immediate ignition detected)</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        if st.button("Trigger Test Smoke/Heat Spike"):
+            st.warning("⚠️ Anomalous thermal plume detected! AI evaluating confidence score...")
+            time.sleep(1)
+            st.error("🚨 HIGH CONFIDENCE WILDFIRE SIGNATURE DETECTED. Automatic dispatch alert generated.")
+
+    with col2:
+        st.markdown("### 📊 Sector Telemetry")
+        st.metric(label="Wind Speed", value="12 mph", delta="NW")
+        st.metric(label="Humidity", value="28%", delta="-4%")
+        st.metric(label="Temperature", value="89°F", delta="+2°F")
+        st.metric(label="AI Model Confidence", value=f"{sensitivity}%", delta="Stable")
+
+with tab2:
+    st.subheader("🤖 AI Integration & Threat Assessment")
+    st.markdown(
+        "Our AI integration uses advanced computer vision and pattern recognition models to analyze "
+        "continuous video feeds from remote cameras, flagging microscopic smoke particles and infrared spikes "
+        "long before human callers can report them[cite: 3]."
+    )
+    
+    user_query = st.text_input("Query AI Dispatch Assistant:", "Analyze current fire spread risk for Sector B based on wind speed.")
+    if st.button("Run AI Analysis"):
+        with st.spinner("Processing neural network layers and environmental vectors..."):
+            time.sleep(1.2)
+            st.success("Analysis Complete:")
+            st.write(
+                f"**AI Recommendation:** Given the wind speed of 12 mph and low humidity (28%), "
+                f"any spark detected in **{camera_location}** carries a **High Rapid Escalation Risk**. "
+                f"Automated alert dispatched to nearest Station 4 units."
+            )
+
+with tab3:
+    st.subheader("📋 Recent Automated Dispatch Logs")
+    data = {
+        "Incident ID": ["INC-9021", "INC-9020", "INC-9019"],
+        "Timestamp": ["2026-10-05 04:12", "2026-10-04 18:45", "2026-10-02 11:30"],
+        "Sector": ["Sector C", "Sector A", "Sector D"],
+        "Detection Type": ["Thermal Spike", "Faint Smoke Plume", "Early Flame Signature"],
+        "Status": ["Contorted / Resolved", "Dispatched in 45s", "False Positive Filtered"]
+    }
+    df = pd.DataFrame(data)
+    st.table(df)
+
+st.divider()
+st.markdown("*FRSE-101 AI Application Project | Developed for First Responder Support*")
